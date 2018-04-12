@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { Route, Link } from 'react-router-dom';
 import * as firebase from 'firebase';
 import RoomsList from './components/RoomsList';
+import MessageList from './components/MessageList';
 import './App.css';
 
 var config = {
@@ -15,18 +17,45 @@ var config = {
 firebase.initializeApp(config);
 
 class App extends Component {
+  constructor(props){
+    super(props);
+    this.state= {
+      activeRoom: ''
+    };
+    this.activeRoom= this.activeRoom.bind(this);
+    console.log(this.state.activeRoom);
+  }
+
+  activeRoom(room){
+    this.setState(
+  { activeRoom: room },
+  () => console.log(this.state.activeRoom)
+);
+    console.log('boo');
+    console.log(this.state.activeRoom);
+  }
   render() {
     return (
-      <div className="App">
-      <header>
-      <h1 className="main-title">Bloc Chat</h1>
-      </header>
-        <main>
-        <div>
-        <RoomsList firebase ={firebase}/>
+        <div className= "App">
+          <div className= "row">
+            <div className= "col-md-3">
+              <header>
+                <h1 className= "main-title">Bloc Chat</h1>
+              </header>
+              <div>
+                <RoomsList activeRoom= {this.activeRoom} firebase= {firebase}/>
+              </div>
+            </div>
+            <div className= "col-md-9">
+              <div className= "current-room">
+                <h2>Room Name</h2>
+              </div>
+            <div className= "message-list-container">
+              <MessageList firebase= {firebase}/>
+            </div>
+            </div>
+          </div>
         </div>
-        </main>
-      </div>
     );
   }
 }

@@ -1,0 +1,13 @@
+.rooms-list{
+   list-style-type: none;
+}
+
+.room-text-field{
+  margin-left: 50px;
+}
+
+.form-button{
+  height: 29px;
+  width: 70px;
+  margin-left: 50px;
+}
