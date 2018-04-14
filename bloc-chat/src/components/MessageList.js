@@ -7,8 +7,9 @@ class MessageList extends Component {
     super(props);
       this.state= {
       data: [],
-      username: '',
+      username: 'boo',
       content: [],
+      messages: [],
       roomId: '',
       sentAt: '',
       value: 0
@@ -18,45 +19,31 @@ class MessageList extends Component {
     this.handleChange= this.handleChange.bind(this);
     }
 
+    componentDidMount(){
+      this.messagesRef.on('child_added', snapshot => {
+        const apiData= snapshot.val();
+        console.log(snapshot.val());
+          apiData.key= snapshot.key;
+          this.setState({data: this.state.data.concat(apiData)})
+      });
+    }
+    createData(e) {
+      const messagesRef = this.props.firebase.database().ref('messages' + '/' + this.props.activeRoom);
+      var timestamp = Date.now();
+      e.preventDefault();
+        messagesRef.push({
+          username: this.state.username,
+          content: this.state.content,
+          sentAt: new Intl.DateTimeFormat('en-US', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'}).format(timestamp)
+        });
+        this.setState({ username: "", content: [], sentAt: ""});
+    }
 
-  componentDidMount(){
-    this.messagesRef.on('child_added', snapshot => {
-      const apiData= snapshot.val();
-        apiData.key= snapshot.key;
-        this.setState({data: this.state.data.concat(apiData)})
-        console.log(this.state.data);
-    });
-  }
-
-  createData(e){
-    console.log(e.target.value);
-    var timestamp = Date.now();
-    this.messagesRef.push({
-      username: 'moose',
-      content: "boo",
-      roomId: '20',
-      sentAt: new Intl.DateTimeFormat('en-US', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'}).format(timestamp),
-      testSentAt: firebase.database.ServerValue.TIMESTAMP
-    })
-  }
   handleChange(e){
     this.setState({content: e.target.value});
-    console.log("boo");
-    console.log(this.state.content);
+    console.log(this.props.activeRoom);
   }
-  putDataInState(){
-    this.state.data.map((data, index) =>
-      {
-        this.state.username= data.username;
-        this.state.content+= data.content;;
-        this.state.roomId= data.roomId;
-        this.state.sentAt= data.sentAt;
-      }
-    )
-  }
-
   render() {
-    this.putDataInState()
 
 
     return(

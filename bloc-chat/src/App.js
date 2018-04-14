@@ -23,18 +23,15 @@ class App extends Component {
       activeRoom: ''
     };
     this.activeRoom= this.activeRoom.bind(this);
-    console.log(this.state.activeRoom);
   }
 
   activeRoom(room){
-    this.setState(
-  { activeRoom: room },
-  () => console.log(this.state.activeRoom)
-);
-    console.log('boo');
-    console.log(this.state.activeRoom);
+    this.setState({activeRoom: room});
   }
+
+
   render() {
+
     return (
         <div className= "App">
           <div className= "row">
@@ -48,11 +45,12 @@ class App extends Component {
             </div>
             <div className= "col-md-9">
               <div className= "current-room">
-                <h2>Room Name</h2>
+                <h2>{this.state.activeRoom.name}</h2>
               </div>
             <div className= "message-list-container">
-              <MessageList firebase= {firebase}/>
+              <MessageList activeRoom= {this.state.activeRoom} firebase= {firebase}/>
             </div>
+
             </div>
           </div>
         </div>

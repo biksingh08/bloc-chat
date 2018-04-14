@@ -13,13 +13,12 @@ class RoomsList extends Component {
     this.roomsRef= this.props.firebase.database().ref('rooms');
     this.handleChange= this.handleChange.bind(this);
     this.createRoom= this.createRoom.bind(this);
+    this.selectChatRoom= this.selectChatRoom.bind(this);
     }
 
     selectChatRoom(room, index){
-      console.log(room);
       this.props.activeRoom(room);
     }
-
     componentDidMount(){
        this.roomsRef.on('child_added', snapshot => {
          const room= snapshot.val();
@@ -42,7 +41,7 @@ class RoomsList extends Component {
 
    render() {
      const list= this.state.rooms.map((room, index)  =>
-       <li key= {room.key} onClick={() => this.props.activeRoom(room, index)}>{room.name}</li>
+       <li key= {room.key} onClick={() => this.selectChatRoom(room, index)}>{room.name}</li>
      );
 
      return (
