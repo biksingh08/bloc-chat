@@ -29,8 +29,8 @@ class App extends Component {
     this.setState({activeRoom: room});
   }
 
-
   render() {
+    console.log(this.state.activeRoom);
 
     return (
         <div className= "App">

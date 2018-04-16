@@ -28,12 +28,12 @@ class MessageList extends Component {
       });
     }
     createData(e) {
-      const messagesRef = this.props.firebase.database().ref('messages' + '/' + this.props.activeRoom);
       var timestamp = Date.now();
       e.preventDefault();
-        messagesRef.push({
+        this.messagesRef.push({
           username: this.state.username,
           content: this.state.content,
+          roomId: this.props.activeRoom.key,
           sentAt: new Intl.DateTimeFormat('en-US', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'}).format(timestamp)
         });
         this.setState({ username: "", content: [], sentAt: ""});
@@ -41,24 +41,27 @@ class MessageList extends Component {
 
   handleChange(e){
     this.setState({content: e.target.value});
-    console.log(this.props.activeRoom);
   }
   render() {
+    const apiData = this.state.data;
+    var filteredMessage = apiData.filter(eachObject => eachObject.roomId == this.props.activeRoom.key);
+    console.log(filteredMessage);
+
+
 
 
     return(
       <div>
-        {
-          this.state.data.map((data, index) =>
-            <ul key= {index}>
-              <li>{data.username}</li>
-              <li>{data.content}</li>
-              <li>{data.roomId}</li>
-              <li>{data.sentAt}</li>
-            </ul>
-        )}
+      {
+        filteredMessage.map((eachObject, index) =>
+          <ul key={index}>
+              <li>{eachObject.content}</li>
+          </ul>
+      )
+      }
+
         <form onSubmit= {this.createData}>
-          <textarea className= "text-message-field" placeholder= "Write your message"  onChange= {this.handleChange}/>
+          <textarea id= "text-message-field" value={this.state.content} placeholder= "Write your message"  onChange= {this.handleChange}/>
           <div className= "text-area-button">
             <input type= "submit" value= "Send" />
           </div>
