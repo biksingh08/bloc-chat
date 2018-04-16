@@ -59,7 +59,7 @@ class RoomsList extends Component {
            </div>
            <div className= "col-md-6">
              <div className= "rooms-list">
-               {list}
+               {list} 
 
            </div>
            </div>
