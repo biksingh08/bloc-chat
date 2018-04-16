@@ -33,7 +33,7 @@ class RoomsList extends Component {
       alert("Room " + this.state.value + "is added");
       e.preventDefault();
     }
-    createRoom(){
+    createRoom(e){
       this.roomsRef.push({
         name: this.state.value
       })
@@ -59,7 +59,7 @@ class RoomsList extends Component {
            </div>
            <div className= "col-md-6">
              <div className= "rooms-list">
-               {list} 
+               {list}
 
            </div>
            </div>
