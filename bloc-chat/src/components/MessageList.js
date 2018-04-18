@@ -6,7 +6,7 @@ class MessageList extends Component {
     super(props);
       this.state= {
       data: [],
-      username: 'boo',
+      username: '',
       content: [],
       messages: [],
       roomId: '',
@@ -29,7 +29,7 @@ class MessageList extends Component {
     var timestamp = Date.now();
     e.preventDefault();
       this.messagesRef.push({
-        username: this.state.username,
+        username: this.props.activeUser,
         content: this.state.content,
         roomId: this.props.activeRoom.key,
         sentAt: new Intl.DateTimeFormat('en-US', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'}).format(timestamp)
@@ -48,8 +48,10 @@ class MessageList extends Component {
       <div>
       {
         filteredMessage.map((eachObject, index) =>
-          <ul key={index}>
+          <ul key={index} className="text-message">
             <li>{eachObject.content}</li>
+            <li>{eachObject.username}</li>
+            <li>{eachObject.sentAt}</li>
           </ul>
       )
       }
