@@ -18,24 +18,24 @@ class MessageList extends Component {
     this.handleChange= this.handleChange.bind(this);
     }
 
-    componentDidMount(){
-      this.messagesRef.on('child_added', snapshot => {
-        const apiData= snapshot.val();
-          apiData.key= snapshot.key;
-          this.setState({data: this.state.data.concat(apiData)})
+  componentDidMount(){
+    this.messagesRef.on('child_added', snapshot => {
+      const apiData= snapshot.val();
+        apiData.key= snapshot.key;
+        this.setState({data: this.state.data.concat(apiData)})
+    });
+  }
+  createData(e) {
+    var timestamp = Date.now();
+    e.preventDefault();
+      this.messagesRef.push({
+        username: this.state.username,
+        content: this.state.content,
+        roomId: this.props.activeRoom.key,
+        sentAt: new Intl.DateTimeFormat('en-US', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'}).format(timestamp)
       });
-    }
-    createData(e) {
-      var timestamp = Date.now();
-      e.preventDefault();
-        this.messagesRef.push({
-          username: this.state.username,
-          content: this.state.content,
-          roomId: this.props.activeRoom.key,
-          sentAt: new Intl.DateTimeFormat('en-US', {year: 'numeric', month: '2-digit',day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'}).format(timestamp)
-        });
-        this.setState({ username: "", content: [], sentAt: ""});
-    }
+      this.setState({ username: "", content: [], sentAt: ""});
+  }
 
   handleChange(e){
     this.setState({content: e.target.value});
@@ -49,11 +49,10 @@ class MessageList extends Component {
       {
         filteredMessage.map((eachObject, index) =>
           <ul key={index}>
-              <li>{eachObject.content}</li>
+            <li>{eachObject.content}</li>
           </ul>
       )
       }
-
         <form onSubmit= {this.createData}>
           <textarea id= "text-message-field" value={this.state.content} placeholder= "Write your message"  onChange= {this.handleChange}/>
           <div className= "text-area-button">
