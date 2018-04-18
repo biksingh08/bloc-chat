@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Route, Link } from 'react-router-dom';
 import * as firebase from 'firebase';
 import RoomsList from './components/RoomsList';
 import MessageList from './components/MessageList';
+import User from './components/User';
 import './App.css';
+
 
 var config = {
   apiKey: "AIzaSyCp7b0qve9Wzgf5S7AEsQmH35weoK8ta8E",
@@ -20,17 +21,28 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state= {
-      activeRoom: ''
+      activeRoom: '',
+      currentUser: []
     };
     this.activeRoom= this.activeRoom.bind(this);
+    this.setUser= this.setUser.bind(this);
   }
 
   activeRoom(room){
     this.setState({activeRoom: room});
   }
+  setUser(user){
+    if (user === null){
+      this.setState({currentUser: 'You are logged out'});
+    }
+    else {
+      this.setState({currentUser: user.displayName});
+    }
+  }
 
   render() {
     console.log(this.state.activeRoom);
+
 
     return (
         <div className= "App">
@@ -41,7 +53,10 @@ class App extends Component {
               </header>
               <div>
                 <RoomsList activeRoom= {this.activeRoom} firebase= {firebase}/>
+                <User setUser= {this.setUser} firebase= {firebase}/>
+                <h4>{this.state.currentUser}</h4>
               </div>
+
             </div>
             <div className= "col-md-9">
               <div className= "current-room">

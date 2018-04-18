@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import * as firebase from 'firebase';
 import '../messageList.css';
 
 class MessageList extends Component {
@@ -22,7 +21,6 @@ class MessageList extends Component {
     componentDidMount(){
       this.messagesRef.on('child_added', snapshot => {
         const apiData= snapshot.val();
-        console.log(snapshot.val());
           apiData.key= snapshot.key;
           this.setState({data: this.state.data.concat(apiData)})
       });
@@ -44,11 +42,7 @@ class MessageList extends Component {
   }
   render() {
     const apiData = this.state.data;
-    var filteredMessage = apiData.filter(eachObject => eachObject.roomId == this.props.activeRoom.key);
-    console.log(filteredMessage);
-
-
-
+    var filteredMessage = apiData.filter(eachObject => eachObject.roomId === this.props.activeRoom.key);
 
     return(
       <div>

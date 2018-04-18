@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Route, Link } from 'react-router-dom';
 import '../RoomsList.css';
 
 class RoomsList extends Component {
@@ -34,6 +33,7 @@ class RoomsList extends Component {
       e.preventDefault();
     }
     createRoom(e){
+      e.preventDefault();
       this.roomsRef.push({
         name: this.state.value
       })
